@@ -1,0 +1,5 @@
+<!-- paper2.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" viewBox="0 0 40 40">
+  <rect width="28" height="36" x="6" y="2" rx="3" fill="#F1F5F9"/>
+  <path d="M10 10h20v2H10zM10 16h20v2H10zM10 22h14v2H10z" fill="#CBD5E1"/>
+</svg>
