@@ -9,85 +9,63 @@ export default function LoginPage() {
   const router = useRouter()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
 
-    const res = await fetch('/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    })
+    // Жинхэнэ сервергүй бол зүгээр redirect
+    localStorage.setItem('token', 'dummy-token')
 
-    const data = await res.json()
-
-    if (!data.success) {
-      setError(data.message || 'Нэвтрэхэд алдаа гарлаа')
-      return
-    }
-
-    // JWT хадгалах (localStorage эсвэл cookie - тохируулж болно)
-    localStorage.setItem('token', data.token)
-
-    // Role шалгаж хуудсыг чиглүүлэх
-    if (data.role === 'admin') {
-      router.push('/admin/dashboard')
-    } else {
-      router.push('/dashboard')
-    }
+    router.push('/dashboard')
   }
 
-return (
-  <>
-    <Header />
+  return (
+    <>
+      <Header />
 
-    <main
-      className="pt-20 pb-16 min-h-[100vh] flex items-center justify-center bg-cover bg-center bg-no-repeat text-white"
-      style={{ backgroundImage: "url('/bg.jpg')" }}
-    >
-      <form
-        onSubmit={handleLogin}
-        className="w-full max-w-sm p-8 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl"
+      <main
+        className="pt-20 pb-16 min-h-[100vh] flex items-center justify-center bg-cover bg-center bg-no-repeat text-white"
+        style={{ backgroundImage: "url('/bg.jpg')" }}
       >
-        <h1 className="text-2xl font-bold mb-6 text-center text-white">Нэвтрэх</h1>
-
-        {error && <p className="text-red-400 mb-4 text-sm text-center">{error}</p>}
-
-        <input
-          type="text"
-          placeholder="Нэвтрэх нэр"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="w-full mb-4 p-3 rounded-xl bg-white/10 backdrop-blur-sm text-white placeholder-white/70 border border-white/20"
-        />
-        <input
-          type="password"
-          placeholder="Нууц үг"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full mb-6 p-3 rounded-xl bg-white/10 backdrop-blur-sm text-white placeholder-white/70 border border-white/20"
-        />
-        <button
-          type="submit"
-          className="w-full bg-blue-600/80 hover:bg-blue-700/90 py-2 px-4 rounded-xl font-semibold backdrop-blur-sm transition"
+        <form
+          onSubmit={handleLogin}
+          className="w-full max-w-sm p-8 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl"
         >
-          Нэвтрэх
-        </button>
-        <div className="mt-4 text-center">
-          <span className="text-sm text-gray-300">Шинэ хэрэглэгч үү?</span>
-          <a
-            href="/register"
-            className="ml-2 text-green-400 hover:underline font-medium"
+          <h1 className="text-2xl font-bold mb-6 text-center text-white">Нэвтрэх</h1>
+
+          <input
+            type="text"
+            placeholder="Нэвтрэх нэр"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="w-full mb-4 p-3 rounded-xl bg-white/10 backdrop-blur-sm text-white placeholder-white/70 border border-white/20"
+          />
+          <input
+            type="password"
+            placeholder="Нууц үг"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full mb-6 p-3 rounded-xl bg-white/10 backdrop-blur-sm text-white placeholder-white/70 border border-white/20"
+          />
+          <button
+            type="submit"
+            className="w-full bg-blue-600/80 hover:bg-blue-700/90 py-2 px-4 rounded-xl font-semibold backdrop-blur-sm transition"
           >
-            Бүртгүүлэх
-          </a>
-        </div>
-      </form>
-    </main>
+            Нэвтрэх
+          </button>
+          <div className="mt-4 text-center">
+            <span className="text-sm text-gray-300">Шинэ хэрэглэгч үү?</span>
+            <a
+              href="/register"
+              className="ml-2 text-green-400 hover:underline font-medium"
+            >
+              Бүртгүүлэх
+            </a>
+          </div>
+        </form>
+      </main>
 
-    <Footer />
-  </>
-)
-
+      <Footer />
+    </>
+  )
 }
